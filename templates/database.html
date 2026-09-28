@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>資料庫處理 | 匯率預測分析平台</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="static/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/" class="logo"><strong>匯率預測分析平台</strong></a>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>資料庫處理</h1>
+									</header>
+
+									<p>
+									本頁介紹如何將爬取的匯率資料持久化到資料庫，作為後續分析與模型訓練的基礎。
+									我們使用 <strong>MySQL</strong> 搭配 <strong>SQLAlchemy</strong> 或 <strong>pymysql</strong> 進行資料儲存，並規劃了表格結構來管理每日匯率。
+									</p>
+									<div class="box">
+										<h3>📌 資料</h3>
+										<ul>
+											<li>來源：<a href="https://cpx.cbc.gov.tw/Tree/TreeSelect" target="_blank">中央銀行統計資料庫</a></li>
+											<li>使用套件：
+												<ul>
+													<li><code>requests</code>：從 API 取得匯率資料</li>
+													<li><code>pandas</code>：資料清理與格式轉換</li>
+													<li><code>SQLAlchemy</code>：資料庫 ORM 與連線</li>
+													<li><code>mysql-connector-python</code>：MySQL 資料庫驅動</li>
+													<li><code>plotly</code>：匯率折線圖與互動式圖表</li>
+													<li><code>Dash</code>：提供互動式圖表介面</li>
+													<li><code>Flask</code>：網站後端框架，整合前後端</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<hr class="major" />
+										<h2>🛠 資料庫流程</h2>
+										<ol>
+											<li>透過中央銀行 API 取得每日、每月、每年匯率資料</li>
+											<li>使用 <code>pandas</code> 將資料清理並轉為寬表格格式</li>
+											<li>利用 <code>SQLAlchemy</code> 連接 MySQL 資料庫</li>
+											<li>將匯率資料寫入 <code>bp01d01_rates</code>、<code>bp01m01_rates</code>、<code>bp01y01_rates</code> 三張表</li>
+											<li>透過 <code>Flask</code> 提供資料查詢、圖表展示 API</li>
+											<li>使用 <code>Dash</code> + <code>Plotly</code> 建立互動式折線圖</li>
+										</ol>
+								<hr class="major" />
+									<p>以下是從 MySQL 資料表 <code>bp01d01_rates</code> 讀取的匯率走勢圖：</p>
+									<iframe src="/dash/" width="100%" height="600" style="border:none;"></iframe>
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+  										<li><a href="/">首頁</a></li>
+  										<li><a href="/crawler">匯率爬蟲</a></li>
+  										<li><a href="/database">資料庫處理</a></li>
+  										<li><a href="/prediction">模型預測分析</a></li>
+									</ul>
+								</nav>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p>中央大學資工三A 王昭尹</p>
+									<p>生成式人工智慧與Python程式設計跨域應用 期末報告</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="static/js/jquery.min.js"></script>
+			<script src="static/js/browser.min.js"></script>
+			<script src="static/js/breakpoints.min.js"></script>
+			<script src="static/js/util.js"></script>
+			<script src="static/js/main.js"></script>
+
+	</body>
+</html>

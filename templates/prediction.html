@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>模型預測分析 | 匯率預測分析平台</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="static/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/" class="logo"><strong>匯率預測分析平台</strong></a>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>匯率 LSTM 模型預測分析</h1>
+									</header>
+									<p>
+									本模型使用 <code>LSTM</code>（長短期記憶網路，Long Short-Term Memory）對
+									<strong>USD/NTD</strong> 匯率進行時間序列預測。  
+									模型以過去 30 天的每日匯率數據作為輸入，預測下一個交易日的匯率走勢。  
+
+									為了比較不同參數設定的影響，本專案嘗試多種 LSTM 結構與超參數組合，
+									並將各模型的訓練結果與評估指標（MAE、RMSE、MAPE、R²）存入資料庫，
+									方便後續進行深入的可視化分析與模型優化研究。
+									</p>
+
+									<div class="box">
+										<h3>📌 資料</h3>
+										<ul>
+											<li>來源：
+											<a href="https://cpx.cbc.gov.tw/Tree/TreeSelect" target="_blank">中央銀行統計資料庫</a>
+											</li>
+											<li>使用套件：
+											<ul>
+												<li><code>pandas</code>：資料處理與特徵工程</li>
+												<li><code>numpy</code>：數值運算與陣列處理</li>
+												<li><code>scikit-learn</code>：資料標準化與評估指標 (MAE、RMSE、MAPE、R²)</li>
+												<li><code>tensorflow / keras</code>：建構與訓練 LSTM 模型</li>
+												<li><code>SQLAlchemy</code>：ORM 與資料庫連線</li>
+												<li><code>mysql-connector-python</code>：MySQL 資料庫驅動</li>
+												<li><code>plotly</code>：預測結果與真實值可視化</li>
+												<li><code>Flask</code>：網站後端框架，負責整合前端與模型</li>
+											</ul>
+											</li>
+										</ul>
+									</div>
+
+
+									<hr class="major" />
+
+									<h2>📌 模型流程</h2>
+										<ol>
+											<li>從 MySQL 資料庫 <code>bp01d01_rates</code> 讀取每日匯率</li>
+											<li>使用 <code>MinMaxScaler</code> 正規化資料</li>
+											<li>建構 LSTM 模型進行訓練與預測</li>
+											<li>計算 MAE、RMSE、MAPE、R² 四項評估指標</li>
+											<li>將預測結果與指標存入資料庫</li>
+											<li>生成互動式圖表進行深度分析</li>
+										</ol>
+									<hr class="major" />
+									<h2>📊 模型評估</h2>
+										<ul>
+											<li>MAE: {{ mae|round(4) }}</li>
+											<li>RMSE: {{ rmse|round(4) }}</li>
+											<li>MAPE: {{ mape|round(2) }}%</li>
+											<li>R²: {{ r2|round(4) }}</li>
+										</ul>
+
+									<hr class="major" />
+									<h2>🔍 預測圖表</h2>
+									<div>
+										{{ chart|safe }}
+									</div>
+									<hr class="major" />
+									<h2>📈 模型深入分析</h2>
+									<p>以下圖表展示模型在不同參數與版本下的表現差異，協助比較精度與效率。</p>
+									<div>
+										{{ extra_charts|safe }}
+									</div>
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+  										<li><a href="/">首頁</a></li>
+  										<li><a href="/crawler">匯率爬蟲</a></li>
+  										<li><a href="/database">資料庫處理</a></li>
+  										<li><a href="/prediction">模型預測分析</a></li>
+									</ul>
+								</nav>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p>中央大學資工三A 王昭尹</p>
+									<p>生成式人工智慧與Python程式設計跨域應用 期末報告</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="static/js/jquery.min.js"></script>
+			<script src="static/js/browser.min.js"></script>
+			<script src="static/js/breakpoints.min.js"></script>
+			<script src="static/js/util.js"></script>
+			<script src="static/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>匯率爬蟲 | 匯率預測分析平台</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="static/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/" class="logo"><strong>匯率預測分析平台</strong></a>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>匯率爬蟲</h1>
+									</header>
+
+									<!--<span class="image main"><img src="static/images/pic11.jpg" alt="" /></span>-->
+
+									<p>
+            						本頁介紹如何透過 Python 爬蟲自動收集匯率資料，作為專案後續分析、建模與預測的基礎數據來源。  
+            						爬蟲定期從目標網站擷取最新匯率資料，並轉換成結構化格式，方便儲存與分析。
+          							</p>
+									<div class="box">
+										<h3>📌 資料</h3>
+										<ul>
+											<li>來源：<a href="https://rate.bot.com.tw/xrt?Lang=zh-TW" target="_blank">台灣銀行牌告匯率</a></li>
+											<li>更新頻率：刷新頁面時自動更新</li>
+											<li>使用套件：
+												<ul>
+													<li><code>requests</code>：發送 HTTP 請求</li>
+													<li><code>BeautifulSoup (bs4)</code>：HTML 解析</li>
+													<li><code>pandas</code>：表格資料整理</li>
+													<li><code>plotly</code>：匯率趨勢圖繪製</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<hr class="major" />
+										<h2>🛠 爬蟲流程</h2>
+										<ol>
+											<li>發送 HTTP 請求至匯率網站</li>
+											<li>利用 BeautifulSoup 解析 HTML 網頁</li>
+											<li>擷取日期、幣別、買入價與賣出價資料</li>
+											<li>將資料整理為 Pandas DataFrame</li>
+											<li>存入資料庫進行後續分析</li>
+										</ol>
+
+									<hr class="major" />
+										<h2>🔍 爬取資料範例</h2>
+          								<p>以下為爬蟲執行後取得的部分資料示例：</p>
+										<div class="table-wrapper">
+											<table>
+												<thead>
+													<tr>
+														<th>幣別</th>
+														<th>現金買入價</th>
+														<th>現金賣出價</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for row in rates %}
+													<tr>
+														<td>{{ row.currency }}</td>
+														<td>{{ row.cash_buy }}</td>
+														<td>{{ row.cash_sell }}</td>
+													</tr>
+													{% endfor %}
+												</tbody>
+											</table>
+											<p style="text-align: right; font-size: 0.9em; color: gray; margin-top: 0.5em;">
+												更新時間：{{ update_time }}
+											</p>
+										</div>
+									<hr class="major" />
+
+									<section>
+										<h2>📅 歷史匯率查詢</h2>
+											<form id="chart-form">
+												<div class="row gtr-uniform">
+												<!-- 年份選單 -->
+												<div class="col-4">
+													<select name="year">
+														{% for y in options.years %}
+														<option value="{{ y }}" {% if y == '2025' %}selected{% endif %}>{{ y }}</option>
+														{% endfor %}
+													</select>
+												</div>
+
+												<!-- 月份選單 -->
+												<div class="col-4">
+													<select name="month">
+														{% for m in options.months %}
+														<option value="{{ m }}" {% if m == '08' %}selected{% endif %}>{{ m }}</option>
+														{% endfor %}
+													</select>
+												</div>
+
+												<!-- 幣別選單 -->
+												<div class="col-4">
+													<select name="currency">
+														{% for val, name in options.currencies %}
+														<option value="{{ val }}" {% if val == 'USD' %}selected{% endif %}>{{ name }}</option>
+														{% endfor %}
+													</select>
+												</div>
+
+												<div class="col-12"><input type="submit" value="查詢" class="primary" /></div>
+												</div>
+											</form>
+											<!-- 顯示圖表 -->
+											<div id="chart-container" style="margin-top:20px;">
+												{{ default_chart | safe }}
+											</div>
+											<p style="text-align: right; font-size: 0.9em; color: gray; margin-top: 0.5em;">
+												更新時間：{{ update_time }}
+											</p>
+										</section>
+
+									
+
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+  										<li><a href="/">首頁</a></li>
+  										<li><a href="/crawler">匯率爬蟲</a></li>
+  										<li><a href="/database">資料庫處理</a></li>
+  										<li><a href="/prediction">模型預測分析</a></li>
+									</ul>
+								</nav>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p>中央大學資工三A 王昭尹</p>
+									<p>生成式人工智慧與Python程式設計跨域應用 期末報告</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="static/js/jquery.min.js"></script>
+			<script src="static/js/browser.min.js"></script>
+			<script src="static/js/breakpoints.min.js"></script>
+			<script src="static/js/util.js"></script>
+			<script src="static/js/main.js"></script>
+			<script>
+				// AJAX 提交表單
+				$("#chart-form").on("submit", function(e) {
+				e.preventDefault();
+				$.post("/update_chart", $(this).serialize(), function(data) {
+					$("#chart-container").html(data.chart_html);
+				});
+				});
+			</script>
+	</body>
+</html>
